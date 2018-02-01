@@ -1,0 +1,5 @@
+node_modules/
+
+# Parcel cache and build output
+.cache/
+dist/
