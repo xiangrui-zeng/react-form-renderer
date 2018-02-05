@@ -1,16 +1,44 @@
 import { h, Component } from 'preact';
-import InputBox from '../components/InputBox'
-import TextArea from '../components/Textarea'
-import TagsInput from '../components/TagsInput'
+import { Template } from 'document-template/src/template/index'
+import ComponentManager from '../utils/ComponentManager'
+import { FieldType } from 'document-template/src/model/field';
 
-export default class App extends Component<{}, {}> {
-  public render(): JSX.Element {
+interface AppProps {
+  template?: Template, 
+}
+
+interface AppState {
+  template: Template,
+}
+
+export default class App extends Component<AppProps, {}> {
+
+  constructor(props : AppProps) {
+    super(props);
+
+    this.state = {
+      template: this.props.template,
+    };
+  }
+
+  generateForm = (template: Template | undefined) : JSX.Element => {
+
+    let fregment1 = ComponentManager.getComponentByKey(FieldType.String);
+    let fregment2 = ComponentManager.getComponentByKey(FieldType.Boolean);
+    let fregment3 = ComponentManager.getComponentByKey(FieldType.Date);
+
     return (
       <div>
-        <InputBox name = 'test' label="Input Box Label"/>
-        <TextArea name = 'test' label="TextArea Box Label"/>
-        <TagsInput name = 'test' label="TagsInput Box Label"/>
+          {fregment1}
+          <br />
+          {fregment2}
+          <br />
+          {fregment3}
       </div>
     );
+  }
+
+  public render(): JSX.Element {
+    return this.generateForm(this.props.template);
   }
 }
