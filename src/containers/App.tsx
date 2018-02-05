@@ -4,7 +4,7 @@ import ComponentManager from '../utils/ComponentManager'
 import { FieldType } from 'document-template/src/model/field';
 
 interface AppProps {
-  template?: Template, 
+  name?: string, 
 }
 
 interface AppState {
@@ -13,32 +13,27 @@ interface AppState {
 
 export default class App extends Component<AppProps, {}> {
 
-  constructor(props : AppProps) {
+  constructor(props: AppProps) {
     super(props);
-
     this.state = {
-      template: this.props.template,
+      template: Template,
     };
   }
+  template: Template;
 
-  generateForm = (template: Template | undefined) : JSX.Element => {
-
-    let fregment1 = ComponentManager.getComponentByKey(FieldType.String);
-    let fregment2 = ComponentManager.getComponentByKey(FieldType.Boolean);
-    let fregment3 = ComponentManager.getComponentByKey(FieldType.Date);
-
+  generateForm = (template: Template) : JSX.Element => {
     return (
       <div>
-          {fregment1}
+          {ComponentManager.getComponentByKey(FieldType.String)}
           <br />
-          {fregment2}
+          {ComponentManager.getComponentByKey(FieldType.Boolean)}
           <br />
-          {fregment3}
+          {ComponentManager.getComponentByKey(FieldType.Date)}
       </div>
     );
   }
 
   public render(): JSX.Element {
-    return this.generateForm(this.props.template);
+    return this.generateForm(this.template);
   }
 }
