@@ -2,95 +2,63 @@ import { h, Component } from 'preact';
 import { Template, create } from 'document-template/src/template/index'
 import ComponentManager from '../utils/ComponentManager'
 import { FieldType, FieldMap } from 'document-template/src/model/field';
+import SubmitButton from '../components/SubmitButton';
+import { DataValue } from 'document-template/src/data'
 
 interface AppProps {
-  name?: string, 
-}
-
-interface AppState {
   template: Template,
 }
 
-export default class App extends Component<AppProps, {}> {
+interface AppState {
+  model: DataValue,
+}
+
+export default class App extends Component<AppProps, AppState> {
 
   constructor(props: AppProps) {
     super(props);
+    
     this.state = {
-      template: Template,
+      model : this.props.template.createObject(),
     };
   }
-  template: Template;
 
-  generateForm = (template: Template) : JSX.Element => {
-    let componentList = this.getAllComponents(template);
+  static childContextTypes = {
+    app: Object,
+  };
+
+  public handleChange(event: any) : void {
+    console.log(event.target.value);
+  }
+  
+  handleSubmit = (event: any) => {
+    event.preventDefault();
+    console.log(event.target);
+  }
+
+  generateForm = (template: Template, dateValue: DataValue) : JSX.Element => {
+    let componentList = this.getAllComponents(template, dateValue);
     return (
       <div>
-          {componentList}
+          <form onSubmit={this.handleSubmit}>
+            {componentList}
+            <SubmitButton />
+          </form>
       </div>
     );
   }
 
-  getAllComponents = (template: Template): JSX.Element[] => {
-    let template1 = create({
-      version: '20180201',
-      model: [
-        {
-          name: 'entry1',
-          type: 'string' as FieldType,
-          rules: []
-        },
-        {
-          name: 'entry2',
-          type: 'boolean' as FieldType,
-          rules: []
-        },
-        {
-          name: 'list',
-          type: 'date' as FieldType,
-          rules: [],
-          items: {
-            name: 'listelement',
-            type: 'object' as FieldType,
-            rules: [],
-            fields: [
-              {
-                name: 'listentry1',
-                type: 'string' as FieldType,
-                rules: []
-              }
-            ]
-          }
-        },
-        {
-          name: 'object',
-          type: 'object' as FieldType,
-          rules: [],
-          fields: [
-            {
-              name: 'objectfield1',
-              type: 'string' as FieldType,
-              rules: []
-            },
-            {
-              name: 'objectfield2',
-              type: 'string' as FieldType,
-              rules: []
-            }
-          ]
-        }
-      ],
-      views: []
-    });
+  getAllComponents = (template: Template, dateValue: DataValue): JSX.Element[] => {
 
-    let componentList: Array<JSX.Element> =  Object.keys(template1.model).map(function(modelIndex){
-      let model = template1.model[modelIndex];
-      return ComponentManager.getComponentByKey(model.type);
+    let componentList: Array<JSX.Element> =  Object.keys(template.model).map(function(modelIndex){
+      let model = template.model[modelIndex];
+      return ComponentManager.getMapedComponent(model, dateValue);
     });
 
     return componentList;
   }
 
   public render(): JSX.Element {
-    return this.generateForm(this.template);
+    return this.generateForm(this.props.template, this.state.model);
   }
 }

@@ -3,10 +3,11 @@ import { h, Component } from 'preact';
 interface TextareaProps {
     label: string, 
     name: string,
+    value: string,
 }
 
 interface TextareState {
-    name: string,
+    inputValue: string,
 }
 
 export default class Textarea extends Component<TextareaProps, TextareState> {
@@ -15,7 +16,7 @@ export default class Textarea extends Component<TextareaProps, TextareState> {
         super(props);
   
         this.state = {
-            name: this.props.name,
+            inputValue: this.props.value,
         };
     }
 
@@ -24,16 +25,16 @@ export default class Textarea extends Component<TextareaProps, TextareState> {
     }
 
     public handleOnChange(event: any) : void {
-        this.setState({ name: event.target.value });
+        this.setState({ inputValue: event.target.value });
     }
 
     public render(): JSX.Element {
         return (
           <div>
             <span> { this.props.label } : </span>
-            <textarea placeholder="textarea" value={this.state.name} onChange={ e => this.handleOnChange(e)} />
+            <textarea placeholder="textarea" value={this.state.inputValue} onChange={ e => this.handleOnChange(e)} />
             <div>
-                Value Display { this.state.name }!
+                Value Display { this.state.inputValue }!
             </div>
           </div>
         );
