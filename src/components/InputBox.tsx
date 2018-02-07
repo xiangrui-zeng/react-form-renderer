@@ -4,6 +4,7 @@ interface InputBoxProps {
     label: string, 
     name: string,
     value: string,
+    onChange: (e:any) => void,
 }
 
 interface InputBoxState {
@@ -20,17 +21,12 @@ export default class InputBox extends Component<InputBoxProps, InputBoxState> {
         };
     }
 
-    static contextTypes = {
-        app: Object,
-      };
-
     public static defaultProps = {
         inputValue : "defaut value",
     }
 
     public handleOnChange(event: any) : void {
-        const { handleChange } = this.context.app;
-        handleChange(event);
+        this.props.onChange(event);
         this.setState({ inputValue: event.target.value });
     }
 
@@ -38,7 +34,7 @@ export default class InputBox extends Component<InputBoxProps, InputBoxState> {
         return (
           <div>
             <span> { this.props.label } : </span>
-            <input placeholder="input box" value={this.state.inputValue} onChange={ e => this.handleOnChange(e)} />
+            <input placeholder="input box" name={this.props.name} value={this.state.inputValue} onChange={ e => this.handleOnChange(e)} />
             <div>
                 Value Display { this.state.inputValue }!
             </div>
