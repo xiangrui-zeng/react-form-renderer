@@ -8,6 +8,8 @@
   },
   "license": "UNLICENSED",
   "devDependencies": {
+    "@types/lodash": "^4.14.101",
+    "@types/lodash.topath": "^4.5.3",
     "@types/node": "^9.4.0",
     "document-template": "git+https://sou_s:Zeng5215210@git.paas.workslan/ac-architecture/document-template.git",
     "immutability-helper": "^2.6.4",
