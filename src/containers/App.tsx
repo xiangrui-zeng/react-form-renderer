@@ -13,7 +13,7 @@ interface AppProps {
 }
 
 interface AppState {
-  model: DataValue,
+  modelData: DataValue,
 }
 
 export default class App extends Component<AppProps, AppState> {
@@ -22,23 +22,23 @@ export default class App extends Component<AppProps, AppState> {
     super(props);
     
     this.state = {
-      model : this.props.template.createObject(),
+      modelData : this.props.template.createObject(),
     };
 
   }
 
   handleChange = (event: any) => {
-    const newModel = update(this.state.model, {
+    const newModelData = update(this.state.modelData, {
       [event.target.name]: {$set: event.target.value}
     });
 
-    this.setState({model: newModel});
+    this.setState({modelData: newModelData});
   }
   
   handleSubmit = (event: any) => {
     event.preventDefault();
     console.log(this.state);
-    alert(JSON.stringify(this.state.model));
+    alert(JSON.stringify(this.state.modelData));
   }
 
   generateForm = (template: Template, dateValue: DataValue): JSX.Element => {
@@ -105,6 +105,6 @@ export default class App extends Component<AppProps, AppState> {
       }
     
   public render(): JSX.Element {
-    return this.generateForm(this.props.template, this.state.model);
+    return this.generateForm(this.props.template, this.state.modelData);
   }
 }
