@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@types/lodash.topath@^4.5.3":
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/@types/lodash.topath/-/lodash.topath-4.5.3.tgz#87de9823f4b8702a77ac927954c0dd4cafa496b5"
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*", "@types/lodash@^4.14.101":
+  version "4.14.101"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.101.tgz#512f6c9e1749890f4d024e98cb995a63f562d458"
+
 "@types/node@^9.4.0":
   version "9.4.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.0.tgz#b85a0bcf1e1cc84eb4901b7e96966aedc6f078d1"
@@ -881,6 +891,10 @@ diffie-hellman@^5.0.0:
     bn.js "^4.1.0"
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
+
+"document-template@git+https://sou_s:Zeng5215210@git.paas.workslan/ac-architecture/document-template.git":
+  version "0.0.1"
+  resolved "git+https://sou_s:Zeng5215210@git.paas.workslan/ac-architecture/document-template.git#6fe1b1ed0ea46f331881b4ce124143ac245261c8"
 
 dom-serializer@0:
   version "0.1.0"
