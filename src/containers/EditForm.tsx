@@ -15,10 +15,6 @@ interface EditFromProps {
   interface EditFromState {
     values: DataValue,
   }
-
-  interface MyFormValues {
-    firstName: string;
-  }
   
   export default class EditForm extends Component<EditFromProps, EditFromState> {
   
@@ -35,7 +31,7 @@ interface EditFromProps {
         let componentList = this.getAllField(this.props.template, this.state.values, this.getMapedComponent);
         return (
             <div>
-                <h1>My Example</h1>
+                <h1>Form Example</h1>
                 <FormRender
                 initialValues={{ values: this.state.values }}
                 onSubmit={(values: DataValue) => alert(JSON.stringify(values))}

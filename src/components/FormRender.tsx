@@ -255,21 +255,21 @@ export class FormRender<ExtraProps = {}, Values = any> extends Component<FormRen
         });
     };
     
-      setValues = (values: DataValue) => {
-        this.setState({ values }, () => {
-          if (this.props.validateOnChange) {
+    setValues = (values: DataValue) => {
+        this.setState({ values: values }, () => {
+            if (this.props.validateOnChange) {
             this.runValidations(values);
-          }
+            }
         });
-      };
-    
-      setStatus = (status?: any) => {
+    };
+
+    setStatus = (status?: any) => {
         this.setState({ status });
-      };
-    
-      setSubmitting = (isSubmitting: boolean) => {
+    };
+
+    setSubmitting = (isSubmitting: boolean) => {
         this.setState({ isSubmitting });
-      };
+    };
 
     /**
      * Run validation Formula 
@@ -330,8 +330,8 @@ export class FormRender<ExtraProps = {}, Values = any> extends Component<FormRen
 
     executeSubmit = () => {
         // call props submit
-
         console.log(this.state)
+        this.props.onSubmit(this.state.values, this.getFormRenderActions());
     };
 
     handleBlur = (e: any) => {
