@@ -8,154 +8,154 @@ import { FieldType, FieldMap, Field as FieldM } from 'document-template/src/mode
 import { DataValue } from 'document-template/src/data';
 
 interface EditFromProps {
-    template: Template;
+  template: Template;
 }
 
 interface EditFromState {
-    values: DataValue;
+  values: DataValue;
 }
 
 export default class EditForm extends Component<EditFromProps, EditFromState> {
 
-    public constructor(props: EditFromProps) {
-        super(props);
+  public constructor(props: EditFromProps) {
+    super(props);
 
-        this.state = {
-            values: this.props.template.createObject(),
-        };
+    this.state = {
+      values: this.props.template.createObject(),
+    };
 
-    }
+  }
 
-    public render(): JSX.Element {
-        const componentList = this.getAllField(this.props.template, this.state.values, this.getMapedComponent);
+  public render(): JSX.Element {
+    const componentList = this.getAllField(this.props.template, this.state.values, this.getMapedComponent);
+    return (
+      <div>
+        <h1>Form Example</h1>
+        <FormRender
+          initialValues={{ values: this.state.values }}
+          onSubmit={(values: DataValue) => alert(JSON.stringify(values))}
+          render={(formRenderBag: FormRenderProps<DataValue>) => (
+            <Form>
+              {componentList}
+              <button type="submit">Submit</button>
+            </Form>
+          )}
+        />
+      </div>
+    );
+  }
+
+  public getAllField = (template: Template, values: DataValue, func: (field: FieldM, state: DataValue) => JSX.Element) => {
+
+    const fieldList: JSX.Element[] = Object.keys(template.model).map((modelIndex: string): JSX.Element => {
+      const model = template.model[modelIndex];
+      return func(model, values);
+    });
+
+    return fieldList;
+  }
+
+  public getMapedComponent = (field: FieldM, values: DataValue): JSX.Element => {
+    switch (field.type) {
+      case FieldType.String:
         return (
-            <div>
-                <h1>Form Example</h1>
-                <FormRender
-                    initialValues={{ values: this.state.values }}
-                    onSubmit={(values: DataValue) => alert(JSON.stringify(values))}
-                    render={(formRenderBag: FormRenderProps<DataValue>) => (
-                        <Form>
-                            {componentList}
-                            <button type="submit">Submit</button>
-                        </Form>
-                    )}
-                />
-            </div>
+          <Field
+            name={field.name}
+            render={({ field, form }: FieldProps<DataValue>) => (
+              <div>
+                <input placeholder={field.name} {...field} />
+              </div>
+            )}
+          />
+        );
+      case FieldType.Number:
+        return (
+          <Field
+            name={field.name}
+            render={({ field, form }: FieldProps<DataValue>) => (
+              <div>
+                <input placeholder={field.name} {...field} />
+              </div>
+            )}
+          />
+        );
+      case FieldType.Boolean:
+        return (
+          <Field
+            name={field.name}
+            render={({ field, form }: FieldProps<DataValue>) => (
+              <div>
+                <input placeholder={field.name} {...field} />
+              </div>
+            )}
+          />
+        );
+      case FieldType.Date:
+        return (
+          <Field
+            name={field.name}
+            render={({ field, form }: FieldProps<DataValue>) => (
+              <div>
+                <input placeholder={field.name} {...field} />
+              </div>
+            )}
+          />
+        );
+      case FieldType.Time:
+        return (
+          <Field
+            name={field.name}
+            render={({ field, form }: FieldProps<DataValue>) => (
+              <div>
+                <input placeholder={field.name} {...field} />
+              </div>
+            )}
+          />
+        );
+      case FieldType.ZonedDateTime:
+        return (
+          <Field
+            name={field.name}
+            render={({ field, form }: FieldProps<DataValue>) => (
+              <div>
+                <input placeholder={field.name} {...field} />
+              </div>
+            )}
+          />
+        );
+      case FieldType.File:
+        return (
+          <Field
+            name={field.name}
+            render={({ field, form }: FieldProps<DataValue>) => (
+              <div>
+                <input placeholder={field.name} {...field} />
+              </div>
+            )}
+          />
+        );
+      case FieldType.List:
+        return (
+          <Field
+            name={field.name}
+            render={({ field, form }: FieldProps<DataValue>) => (
+              <div>
+                <input placeholder={field.name} {...field} />
+              </div>
+            )}
+          />
+        );
+      case FieldType.Object:
+        return (
+          <Field
+            name={field.name}
+            render={({ field, form }: FieldProps<DataValue>) => (
+              <div>
+                <input placeholder={field.name} {...field} />
+              </div>
+            )}
+          />
         );
     }
-
-    public getAllField = (template: Template, values: DataValue, func: (field: FieldM, state: DataValue) => JSX.Element) => {
-        
-        const fieldList: JSX.Element[] =  Object.keys(template.model).map((modelIndex: string): JSX.Element => {
-            const model = template.model[modelIndex];
-            return func(model, values);
-        });
-
-        return fieldList;
-    }
-
-    public getMapedComponent =  (field: FieldM, values: DataValue): JSX.Element => {
-        switch (field.type) {
-            case FieldType.String:
-                return (
-                    <Field
-                        name={field.name}
-                        render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input placeholder={field.name} {...field} />
-                            </div>
-                        )}
-                    />
-                );
-            case FieldType.Number:
-                return (
-                    <Field
-                        name={field.name}
-                        render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input placeholder={field.name} {...field} />
-                            </div>
-                        )}
-                    />
-                );
-            case FieldType.Boolean:
-                return (
-                    <Field
-                        name={field.name}
-                        render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input placeholder={field.name} {...field} />
-                            </div>
-                        )}
-                    />
-                );
-            case FieldType.Date:
-                return (
-                    <Field
-                        name={field.name}
-                        render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input placeholder={field.name} {...field} />
-                            </div>
-                        )}
-                    />
-                );
-            case FieldType.Time:
-                return (
-                    <Field
-                        name={field.name}
-                        render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input placeholder={field.name} {...field} />
-                            </div>
-                        )}
-                    />
-                );
-            case FieldType.ZonedDateTime:
-                return (
-                    <Field
-                        name={field.name}
-                        render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input placeholder={field.name} {...field} />
-                            </div>
-                        )}
-                    />
-                );
-            case FieldType.File:
-                return (
-                    <Field
-                        name={field.name}
-                        render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input placeholder={field.name} {...field} />
-                            </div>
-                        )}
-                    />
-                );
-            case FieldType.List:
-                return (
-                    <Field
-                        name={field.name}
-                        render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input placeholder={field.name} {...field} />
-                            </div>
-                        )}
-                    />
-                );
-            case FieldType.Object:
-                return (
-                    <Field
-                        name={field.name}
-                        render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input placeholder={field.name} {...field} />
-                            </div>
-                        )}
-                    />
-                );
-        }
-    }
+  }
 }
