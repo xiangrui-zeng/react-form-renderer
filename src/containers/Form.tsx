@@ -1,9 +1,20 @@
-import { h, Component } from 'preact';
+import { h, Component } from 'preact';  
 
-export const Form = (props, context) => (
-    <form onSubmit={context.formRender.handleSubmit} {...props} />
-  );
-  
-Form.contextTypes = {
-    formRender: Object,
-};
+export class Form extends Component<any, any> {
+
+    constructor(props: any) {
+        super(props);
+    }
+
+    static contextTypes = {
+        formRender: Object,
+    };
+
+    render () {
+        return (
+            <div>
+                <form onSubmit={this.context.formRender.handleSubmit} {...this.props} />
+            </div>
+        );
+    }
+}

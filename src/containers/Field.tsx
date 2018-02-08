@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import { dlv } from '../utils/FucntionProvider';
+import { FormRenderProps } from './FormRender';
 
 export type GenericFieldHTMLAttributes =
 | HTMLInputElement
@@ -17,7 +18,7 @@ field: {
     /* name of the input */
     name: string;
 };
-    // form: FormRenderProps<V>; // if ppl want to restrict this for a given form, let them.
+    form: FormRenderProps<V>; // if ppl want to restrict this for a given form, let them.
 }
 
 export interface FieldConfig {
@@ -51,6 +52,7 @@ export interface FieldConfig {
 
     /** Field value */
     value?: any;
+
 }
 
 export type FieldAttributes = GenericFieldHTMLAttributes & FieldConfig;

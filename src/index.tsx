@@ -2,6 +2,7 @@ import { h, render } from 'preact';
 import App from './containers/App';
 import { Template, create } from 'document-template/src/template/index'
 import { FieldType, FieldMap } from 'document-template/src/model/field';
+import EditForm from './containers/EditForm'
 
 let template = create({
   version: '20180201',
@@ -55,7 +56,8 @@ let template = create({
 });
 
 let mountNode = document.getElementById('root') as Element;
-mountNode = render(<App template={template}/>, mountNode, mountNode.lastElementChild || undefined);
+// mountNode = render(<App template={template}/>, mountNode, mountNode.lastElementChild || undefined);
+mountNode = render(<EditForm template={template}/>, mountNode, mountNode.lastElementChild || undefined);
 
 if (process.env.NODE_ENV !== 'production') {
   require('preact/debug');
