@@ -1,16 +1,16 @@
-import { h, Component } from 'preact';  
+import { h, Component, PreactHTMLAttributes } from 'preact';
 
-export class Form extends Component<any, any> {
+export class Form extends Component<PreactHTMLAttributes, {}> {
 
-    constructor(props: any) {
-        super(props);
-    }
-
-    static contextTypes = {
+    public static contextTypes = {
         formRender: Object,
     };
 
-    render () {
+    public constructor(props: PreactHTMLAttributes) {
+        super(props);
+    }
+
+    public render(): JSX.Element {
         return (
             <div>
                 <form onSubmit={this.context.formRender.handleSubmit} {...this.props} />
