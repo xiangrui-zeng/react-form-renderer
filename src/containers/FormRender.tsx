@@ -290,6 +290,15 @@ export class FormRender<ExtraProps = {}, Values = any> extends Component<FormRen
     handleChange = (e: any) => {
 
         // Set form fields by name
+        const { type, name, id, value, checked } = e.target;
+
+        const newValues = update(this.state.values, {
+            [name]: {$set: value}
+          });
+
+        this.setState({
+            values: newValues,
+        });
 
         // Check Validation changed or not
     };
@@ -322,7 +331,7 @@ export class FormRender<ExtraProps = {}, Values = any> extends Component<FormRen
     executeSubmit = () => {
         // call props submit
 
-        console.log(this.state.values)
+        console.log(this.state)
     };
 
     handleBlur = (e: any) => {

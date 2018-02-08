@@ -35,14 +35,13 @@ interface EditFromProps {
       const newModelData = update(this.state.values, {
         [event.target.name]: {$set: event.target.value}
       });
-  
+      console.log(this.state)
       this.setState({values: newModelData});
     }
     
     handleSubmit = (event: any) => {
       event.preventDefault();
       console.log(this.state);
-      alert(JSON.stringify(this.state.values));
     }
       
     public render(): JSX.Element {
@@ -55,15 +54,7 @@ interface EditFromProps {
                 onSubmit={(values: DataValue) => alert(JSON.stringify(values))}
                 render={(formRenderBag: FormRenderProps<DataValue>) => (
                     <Form>
-                        <Field
-                            name="firstName"
-                            render={({ field, form }: FieldProps<DataValue>) => (
-                            <div>
-                                <input type="text" {...field} placeholder="First Name" />
-                                {componentList}
-                            </div>
-                            )}
-                        />
+                        {componentList}
                         <button type="submit">Submit</button>
                     </Form>
                 )}

@@ -58,7 +58,7 @@ export interface FieldConfig {
 export type FieldAttributes = GenericFieldHTMLAttributes & FieldConfig;
 
 /**
- * Custom Field component for quickly hooking into Formik
+ * Custom Field component for quickly hooking into FormRender
  * context and wiring up forms.
  */
 
@@ -80,7 +80,7 @@ export class Field<FieldProps extends FieldAttributes = any> extends Component<F
 
     handleChange = (e: any) => {
         const { handleChange, validateOnChange } = this.context.formRender;
-        handleChange(e); // Call Formik's handleChange no matter what
+        handleChange(e); // Call FormRender's handleChange no matter what
         if (!!validateOnChange && !!this.props.validate) {
             this.runFieldValidations(e.target.value);
         }
@@ -88,7 +88,7 @@ export class Field<FieldProps extends FieldAttributes = any> extends Component<F
 
     handleBlur = (e: any) => {
         const { handleBlur, validateOnBlur } = this.context.formRender;
-        handleBlur(e); // Call Formik's handleBlur no matter what
+        handleBlur(e); // Call FormRender's handleBlur no matter what
         if (validateOnBlur && this.props.validate) {
             this.runFieldValidations(e.target.value);
         }
