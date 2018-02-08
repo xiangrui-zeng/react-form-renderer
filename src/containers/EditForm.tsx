@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
-import { FormRender, FormRenderProps } from './FormRender';
-import { Field, FieldProps } from './Field'
-import { Form } from './Form'
+import { FormRender, FormRenderProps } from '../components/FormRender';
+import { Field, FieldProps } from '../components/Field'
+import { Form } from '../components/Form'
 import * as update from 'immutability-helper';
 import { Template, create } from 'document-template/src/template/index'
 import { FieldType, FieldMap, Field as FieldM } from 'document-template/src/model/field';
@@ -29,19 +29,6 @@ interface EditFromProps {
           values: this.props.template.createObject(),
       }
   
-    }
-  
-    handleChange = (event: any) => {
-      const newModelData = update(this.state.values, {
-        [event.target.name]: {$set: event.target.value}
-      });
-      console.log(this.state)
-      this.setState({values: newModelData});
-    }
-    
-    handleSubmit = (event: any) => {
-      event.preventDefault();
-      console.log(this.state);
     }
       
     public render(): JSX.Element {
@@ -78,14 +65,14 @@ interface EditFromProps {
         switch(field.type){
             case FieldType.String:
                 return (
-                        <Field
-                            name={field.name}
-                            render={({ field, form }: FieldProps<DataValue>) => (
-                                <div>
-                                    <input placeholder={field.name} {...field} />
-                                </div>
-                            )}
-                        />
+                    <Field
+                        name={field.name}
+                        render={({ field, form }: FieldProps<DataValue>) => (
+                            <div>
+                                <input placeholder={field.name} {...field} />
+                            </div>
+                        )}
+                    />
                 );
             case FieldType.Number:
                 return (
