@@ -391,10 +391,9 @@ export class FormRender<ExtraProps = {}, Values = any> extends Component<FormRen
     };
 
 
-    render () {
+    public render(): JSX.Element {
         const { component, render, children } = this.props;
         const props = this.getFormRenderBag();
         return component? (component as any, props) : render? ((render as any)(props)) : null;
     }
 }
-  

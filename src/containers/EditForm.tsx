@@ -1,64 +1,62 @@
 import { h, Component } from 'preact';
 import { FormRender, FormRenderProps } from '../components/FormRender';
-import { Field, FieldProps } from '../components/Field'
-import { Form } from '../components/Form'
+import { Field, FieldProps } from '../components/Field';
+import { Form } from '../components/Form';
 import * as update from 'immutability-helper';
-import { Template, create } from 'document-template/src/template/index'
+import { Template, create } from 'document-template/src/template/index';
 import { FieldType, FieldMap, Field as FieldM } from 'document-template/src/model/field';
-import { DataValue } from 'document-template/src/data'
-
+import { DataValue } from 'document-template/src/data';
 
 interface EditFromProps {
-    template: Template,
-  }
-  
-  interface EditFromState {
-    values: DataValue,
-  }
-  
-  export default class EditForm extends Component<EditFromProps, EditFromState> {
-  
-    constructor(props: EditFromProps) {
-      super(props);
+    template: Template;
+}
 
-      this.state = {
-          values: this.props.template.createObject(),
-      }
-  
+interface EditFromState {
+    values: DataValue;
+}
+
+export default class EditForm extends Component<EditFromProps, EditFromState> {
+
+    public constructor(props: EditFromProps) {
+        super(props);
+
+        this.state = {
+            values: this.props.template.createObject(),
+        };
+
     }
-      
+
     public render(): JSX.Element {
-        let componentList = this.getAllField(this.props.template, this.state.values, this.getMapedComponent);
+        const componentList = this.getAllField(this.props.template, this.state.values, this.getMapedComponent);
         return (
             <div>
                 <h1>Form Example</h1>
                 <FormRender
-                initialValues={{ values: this.state.values }}
-                onSubmit={(values: DataValue) => alert(JSON.stringify(values))}
-                render={(formRenderBag: FormRenderProps<DataValue>) => (
-                    <Form>
-                        {componentList}
-                        <button type="submit">Submit</button>
-                    </Form>
-                )}
+                    initialValues={{ values: this.state.values }}
+                    onSubmit={(values: DataValue) => alert(JSON.stringify(values))}
+                    render={(formRenderBag: FormRenderProps<DataValue>) => (
+                        <Form>
+                            {componentList}
+                            <button type="submit">Submit</button>
+                        </Form>
+                    )}
                 />
             </div>
         );
     }
 
-
-    getAllField = (template: Template, values: DataValue, func:(field: FieldM, state: any) => JSX.Element) => {
+    public getAllField = (template: Template, values: DataValue, func: (field: FieldM, state: DataValue) => JSX.Element) => {
         
-        let fieldList: Array<JSX.Element> =  Object.keys(template.model).map(function(modelIndex){
-            let model = template.model[modelIndex];
+        const fieldList: JSX.Element[] =  Object.keys(template.model).map((modelIndex: string): JSX.Element => {
+            const model = template.model[modelIndex];
             return func(model, values);
         });
 
         return fieldList;
     }
 
-    getMapedComponent =  (field: FieldM, values: any): JSX.Element => {
-        switch(field.type){
+    public getMapedComponent =  (field: FieldM, values: DataValue): JSX.Element => {
+        switch (field.type) {
             case FieldType.String:
                 return (
                     <Field
@@ -160,4 +158,4 @@ interface EditFromProps {
                 );
         }
     }
-  }
+}

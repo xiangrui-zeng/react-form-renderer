@@ -40,7 +40,7 @@ export interface FieldConfig {
     /**
      * Validate a single field value independently
      */
-    validate?: ((value: any) => string | Function | Promise<void> | undefined);
+    validate?: ((value: any) => string | Promise<void> | undefined);
 
     /**
      * Field name
@@ -64,45 +64,38 @@ export type FieldAttributes = GenericFieldHTMLAttributes & FieldConfig;
 
 export class Field<FieldProps extends FieldAttributes = any> extends Component<FieldProps, {}> {
 
-    constructor(props: FieldProps) {
+    public static contextTypes = {
+        formRender: Object,
+    };
+
+    public constructor(props: FieldProps) {
         super(props);
     }
 
-    static contextTypes = {
-        formRender: Object,
-      };
-
-    componentWillMount() {
-        const { render, children, component } = this.props;
-
-        //props check here
-    }
-
-    handleChange = (e: any) => {
+    public handleChange = (e: any) => {
         const { handleChange, validateOnChange } = this.context.formRender;
         handleChange(e); // Call FormRender's handleChange no matter what
         if (!!validateOnChange && !!this.props.validate) {
             this.runFieldValidations(e.target.value);
         }
-    };
+    }
 
-    handleBlur = (e: any) => {
+    public handleBlur = (e: any) => {
         const { handleBlur, validateOnBlur } = this.context.formRender;
         handleBlur(e); // Call FormRender's handleBlur no matter what
         if (validateOnBlur && this.props.validate) {
             this.runFieldValidations(e.target.value);
         }
-    };
+    }
 
-    runFieldValidations = (value: any) => {
+    public runFieldValidations = (value: any) => {
         const { setFieldError } = this.context.formRender;
         const { name, validate } = this.props;
         // Call validate fn
         setFieldError(name, 'Error Message');
-        
-    };
+    }
 
-    render(): JSX.Element {
+    public render(): JSX.Element {
         const {
             validate,
             name,
@@ -111,7 +104,7 @@ export class Field<FieldProps extends FieldAttributes = any> extends Component<F
             component = 'input',
             ...props
         } = this.props as FieldConfig;
-        
+
         const { formRender } = this.context;
 
         const field = {
@@ -124,11 +117,9 @@ export class Field<FieldProps extends FieldAttributes = any> extends Component<F
         const bag = { field, form: formRender };
 
         if (render) {
-            return (render as any)(bag);
+            return (render)(bag);
         }
 
-        return (
-            <div></div>
-        )
+        return (<div />);
     }
 }
