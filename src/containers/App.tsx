@@ -144,7 +144,7 @@ export default class App extends Component<AppProps, AppState> {
     dateValue: DataValue,
     func: (field: Field, state: any) => JSX.Element
   ) => {
-    const componentList: JSX.Element[] = Object.keys(template.model).map(function (modelIndex) {
+    const componentList: JSX.Element[] = Object.keys(template.model).map((modelIndex: string): JSX.Element => {
       const model = template.model[modelIndex];
       return func(model, dateValue);
     });
