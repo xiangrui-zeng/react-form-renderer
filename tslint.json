@@ -24,7 +24,7 @@
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "prefer-const": true,
-    "quotemark": [true, "single"],
+    "quotemark": [true, "single", "jsx-double"],
     "space-within-parens": true,
     "trailing-comma": [true, "never"],
     "triple-equals": true,
