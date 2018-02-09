@@ -25,7 +25,7 @@ export interface FieldConfig {
   /**
    * Field component to render. Can either be a string like 'select' or a component.
    */
-  component?: string | Component<FieldProps<any> | void, {}>;
+  component?: string | Component<FieldProps<any> | void, {}> | JSX.Element;
 
   /**
    * Render prop (works like React router's <Route render={props =>} />)
@@ -97,11 +97,11 @@ export class Field<FieldProps extends FieldAttributes = any> extends Component<F
 
   public render(): JSX.Element {
     const {
-            validate,
+      validate,
       name,
       render,
       children,
-      component = 'input',
+      component,
       ...props
         } = this.props as FieldConfig;
 
@@ -118,6 +118,10 @@ export class Field<FieldProps extends FieldAttributes = any> extends Component<F
 
     if (render) {
       return (render)(bag);
+    }
+
+    if (component) {
+      return (component as JSX.Element);
     }
 
     return (<div />);
