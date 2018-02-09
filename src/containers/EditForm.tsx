@@ -6,6 +6,7 @@ import * as update from 'immutability-helper';
 import { Template, create } from 'document-template/src/template/index';
 import { FieldType, FieldMap, Field as FieldM } from 'document-template/src/model/field';
 import { DataValue } from 'document-template/src/data';
+import FieldInput from '../components/FieldInput'
 
 interface EditFromProps {
   template: Template;
@@ -147,14 +148,9 @@ export default class EditForm extends Component<EditFromProps, EditFromState> {
         );
       case FieldType.Object:
         return (
-          <Field
+          <FieldInput
             name={field.name}
-            render={({ field, form }: FieldProps<DataValue>) => (
-              <div>
-                <input placeholder={field.name} {...field} />
-              </div>
-            )}
-          />
+            />
         );
     }
   }

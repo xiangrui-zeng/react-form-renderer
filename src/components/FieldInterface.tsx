@@ -2,11 +2,6 @@ import { h, Component } from 'preact';
 import { dlv } from '../utils/FucntionProvider';
 import { FormRenderProps } from './FormRender';
 
-export type GenericFieldHTMLAttributes =
-  | HTMLInputElement
-  | HTMLSelectElement
-  | HTMLTextAreaElement;
-
 export interface FieldProps<V = any> {
   field: {
     /** Classic React change handler, keyed by input name */
@@ -18,25 +13,10 @@ export interface FieldProps<V = any> {
     /* name of the input */
     name: string;
   };
-  form: FormRenderProps<V>; // if ppl want to restrict this for a given form, let them.
+  form: FormRenderProps<V>;
 }
 
 export interface FieldConfig {
-  /**
-   * Field component to render. Can either be a string like 'select' or a component.
-   */
-  component?: string | Component<FieldProps<any> | void, {}> | JSX.Element;
-
-  /**
-   * Render prop (works like React router's <Route render={props =>} />)
-   */
-  render?: ((props: FieldProps<any>) => JSX.Element);
-
-  /**
-   * Children render function <Field name>{props => ...}</Field>)
-   */
-  children?: ((props: FieldProps<any>) => JSX.Element);
-
   /**
    * Validate a single field value independently
    */
@@ -55,26 +35,24 @@ export interface FieldConfig {
 
 }
 
-export type FieldAttributes = GenericFieldHTMLAttributes & FieldConfig;
-
 /**
  * Custom Field component for quickly hooking into FormRender
  * context and wiring up forms.
  */
 
-export class Field<FieldProps extends FieldAttributes = any> extends Component<FieldProps, {}> {
+export class Field<T extends FieldConfig = any> extends Component<T, {}> {
 
   public static contextTypes = {
     formRender: Object,
   };
 
-  public constructor(props: FieldProps) {
+  public constructor(props: T) {
     super(props);
   }
 
   public handleChange = (e: any) => {
+      console.log('changed');
     const { handleChange, validateOnChange } = this.context.formRender;
-    console.log('changed');
     handleChange(e); // Call FormRender's handleChange no matter what
     if (!!validateOnChange && !!this.props.validate) {
       this.runFieldValidations(e.target.value);
@@ -100,9 +78,6 @@ export class Field<FieldProps extends FieldAttributes = any> extends Component<F
     const {
       validate,
       name,
-      render,
-      children,
-      component,
       ...props
         } = this.props as FieldConfig;
 
@@ -116,14 +91,6 @@ export class Field<FieldProps extends FieldAttributes = any> extends Component<F
     };
 
     const bag = { field, form: formRender };
-
-    if (render) {
-      return (render)(bag);
-    }
-
-    if (component) {
-      return (component as JSX.Element);
-    }
 
     return (<div />);
   }
