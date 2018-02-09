@@ -163,11 +163,6 @@ export interface FormRenderConfig<Values> extends FormRenderSharedConfig {
   render?: ((props: FormRenderProps<Values>) => JSX.Element);
 
   /**
-	 * A Yup Schema or a function that returns a Yup schema
-	 */
-  validationSchema?: any | (() => any);
-
-  /**
 	 * Validation function. Must return an error object or promise that
 	 * throws an error object where that object keys map to corresponding value.
 	 */
@@ -271,19 +266,10 @@ export class FormRender<ExtraProps = {}, Values = any> extends Component<FormRen
   }
 
   /**
-	 * Run validation Formula
-	 */
-  public runValidationSchema = (values: DataValue, onSuccess?: Function) => {
-    // Do something
-  }
-
-  /**
 	 * Run validations and update state accordingly
 	 */
   public runValidations = (values: DataValue = this.state.values) => {
-    if (this.props.validationSchema) {
-      this.runValidationSchema(values);
-    }
+			// validation
   }
 
   public handleChange = (e: any) => {
