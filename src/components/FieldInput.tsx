@@ -3,7 +3,7 @@ import { Field, FieldConfig } from './FieldInterface';
 import { dlv } from '../utils/FucntionProvider';
 
 export interface FieldInputProps extends FieldConfig {
-
+	// add you own props
 }
 
 export default class FieldInput extends Field<FieldInputProps> {
@@ -15,10 +15,10 @@ export default class FieldInput extends Field<FieldInputProps> {
 
 	public render(): JSX.Element {
 		const {
-        validate,
+      validate,
 			name,
 			...props
-          } = this.props as FieldConfig;
+    } = this.props as FieldConfig;
 
 		const { formRender } = this.context;
 
@@ -29,11 +29,9 @@ export default class FieldInput extends Field<FieldInputProps> {
 			onBlur: validate ? this.handleBlur : formRender.handleBlur,
 		};
 
-		const bag = { field, form: formRender };
-
 		return (
 			<div>
-				<input {...field}/>
+				<input {...field} placeholder={this.props.type} />
 			</div>
 		);
 	}

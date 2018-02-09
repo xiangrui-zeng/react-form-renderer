@@ -1,45 +1,39 @@
 import { h, Component } from 'preact';
+import { Field, FieldConfig } from './FieldInterface';
+import { dlv } from '../utils/FucntionProvider';
 
-interface TextareaProps {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (e: any) => void;
+export interface TextareaProps extends FieldConfig {
+	// add you own props
 }
 
-interface TextareState {
-  inputValue: string;
+export default class Textarea extends Field<TextareaProps> {
+
+	public constructor(props: TextareaProps) {
+		super(props);
+
+	}
+
+	public render(): JSX.Element {
+		const {
+      validate,
+			name,
+			...props
+    } = this.props as FieldConfig;
+
+		const { formRender } = this.context;
+
+		const field = {
+			value: dlv(formRender.values, name),
+			name: this.props.name,
+			onChange: validate ? this.handleChange : formRender.handleChange,
+			onBlur: validate ? this.handleBlur : formRender.handleBlur,
+		};
+
+		return (
+			<div>
+				<textarea {...field} placeholder={this.props.type} />
+			</div>
+		);
+	}
 }
 
-export default class Textarea extends Component<TextareaProps, TextareState> {
-
-  public constructor(props: TextareaProps) {
-    super(props);
-
-    this.state = {
-      inputValue: this.props.value,
-    };
-  }
-
-  public static defaultProps = {
-    name: 'defaut value',
-  };
-
-  public handleOnChange(event: any): void {
-    this.props.onChange(event);
-    this.setState({ inputValue: event.target.value });
-
-  }
-
-  public render(): JSX.Element {
-    return (
-      <div>
-        <span> {this.props.label} : </span>
-        <textarea placeholder="textarea" name={this.props.name} value={this.state.inputValue} onChange={e => this.handleOnChange(e)} />
-        <div>
-          Value Display {this.state.inputValue}!
-            </div>
-      </div>
-    );
-  }
-}

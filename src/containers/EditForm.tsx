@@ -7,6 +7,9 @@ import { Template, create } from 'document-template/src/template/index';
 import { FieldType, FieldMap, Field as FieldM } from 'document-template/src/model/field';
 import { DataValue } from 'document-template/src/data';
 import FieldInput from '../components/FieldInput'
+import InputBox from '../components/InputBox';
+import TextArea from '../components/Textarea';
+import TagsInput from '../components/TagsInput';
 
 interface EditFromProps {
   template: Template;
@@ -60,96 +63,56 @@ export default class EditForm extends Component<EditFromProps, EditFromState> {
     switch (field.type) {
       case FieldType.String:
         return (
-          <Field
-            name={field.name}
-            render={({ field, form }: FieldProps<DataValue>) => (
-              <div>
-                <input placeholder={field.name} {...field} />
-              </div>
-            )}
+          <InputBox
+            name={field.name} type={FieldType.String}
           />
         );
       case FieldType.Number:
         return (
-          <Field
-            name={field.name}
-            render={({ field, form }: FieldProps<DataValue>) => (
-              <div>
-                <input placeholder={field.name} {...field} />
-              </div>
-            )}
+          <InputBox
+            name={field.name} type={FieldType.Number}
           />
         );
       case FieldType.Boolean:
         return (
-          <Field
-            name={field.name}
-            render={({ field, form }: FieldProps<DataValue>) => (
-              <div>
-                <input placeholder={field.name} {...field} />
-              </div>
-            )}
+          <InputBox
+            name={field.name} type={FieldType.Boolean}
           />
         );
       case FieldType.Date:
         return (
-          <Field
-            name={field.name}
-            render={({ field, form }: FieldProps<DataValue>) => (
-              <div>
-                <input placeholder={field.name} {...field} />
-              </div>
-            )}
+          <TextArea
+            name={field.name} type={FieldType.Date}
           />
         );
       case FieldType.Time:
         return (
-          <Field
-            name={field.name}
-            render={({ field, form }: FieldProps<DataValue>) => (
-              <div>
-                <input placeholder={field.name} {...field} />
-              </div>
-            )}
+          <InputBox
+            name={field.name} type={FieldType.Time}
           />
         );
       case FieldType.ZonedDateTime:
         return (
-          <Field
-            name={field.name}
-            render={({ field, form }: FieldProps<DataValue>) => (
-              <div>
-                <input placeholder={field.name} {...field} />
-              </div>
-            )}
+          <InputBox
+            name={field.name} type={FieldType.ZonedDateTime}
           />
         );
       case FieldType.File:
         return (
-          <Field
-            name={field.name}
-            render={({ field, form }: FieldProps<DataValue>) => (
-              <div>
-                <input placeholder={field.name} {...field} />
-              </div>
-            )}
+          <InputBox
+            name={field.name} type={FieldType.File}
           />
         );
       case FieldType.List:
         return (
-          <Field
-            name={field.name}
-            render={({ field, form }: FieldProps<DataValue>) => (
-              <div>
-                <input placeholder={field.name} {...field} />
-              </div>
-            )}
+          <InputBox
+            name={field.name} type={FieldType.List}
           />
         );
       case FieldType.Object:
         return (
           <FieldInput
-            name={field.name}
+            name={field.name} type={FieldType.Object}
             />
         );
     }

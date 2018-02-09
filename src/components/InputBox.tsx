@@ -1,44 +1,38 @@
 import { h, Component } from 'preact';
+import { Field, FieldConfig } from './FieldInterface';
+import { dlv } from '../utils/FucntionProvider';
 
-interface InputBoxProps {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (e: any) => void;
+export interface InputBoxProps extends FieldConfig {
+	// add you own props
 }
 
-interface InputBoxState {
-  inputValue: string;
-}
+export default class InputBox extends Field<InputBoxProps> {
 
-export default class InputBox extends Component<InputBoxProps, InputBoxState> {
+	public constructor(props: InputBoxProps) {
+		super(props);
 
-  public constructor(props: InputBoxProps) {
-    super(props);
+	}
 
-    this.state = {
-      inputValue: this.props.value,
-    };
-  }
+	public render(): JSX.Element {
+		const {
+      validate,
+			name,
+			...props
+    } = this.props as FieldConfig;
 
-  public static defaultProps = {
-    inputValue: 'defaut value',
-  };
+		const { formRender } = this.context;
 
-  public handleOnChange(event: any): void {
-    this.props.onChange(event);
-    this.setState({ inputValue: event.target.value });
-  }
+		const field = {
+			value: dlv(formRender.values, name),
+			name: this.props.name,
+			onChange: validate ? this.handleChange : formRender.handleChange,
+			onBlur: validate ? this.handleBlur : formRender.handleBlur,
+		};
 
-  public render(): JSX.Element {
-    return (
-      <div>
-        <span> {this.props.label} : </span>
-        <input placeholder="input box" name={this.props.name} value={this.state.inputValue} onChange={e => this.handleOnChange(e)} />
-        <div>
-          Value Display {this.state.inputValue}!
-            </div>
-      </div>
-    );
-  }
+		return (
+			<div>
+				<input {...field} placeholder={this.props.type} />
+			</div>
+		);
+	}
 }
