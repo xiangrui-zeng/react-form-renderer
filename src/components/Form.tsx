@@ -1,20 +1,20 @@
-import { h, Component } from 'preact';  
+import { h, Component, PreactHTMLAttributes } from 'preact';
 
-export class Form extends Component<any, any> {
+export class Form extends Component<PreactHTMLAttributes, {}> {
 
-    constructor(props: any) {
-        super(props);
-    }
+  public static contextTypes = {
+    formRender: Object,
+  };
 
-    static contextTypes = {
-        formRender: Object,
-    };
+  public constructor(props: PreactHTMLAttributes) {
+    super(props);
+  }
 
-    render () {
-        return (
-            <div>
-                <form onSubmit={this.context.formRender.handleSubmit} {...this.props} />
-            </div>
-        );
-    }
+  public render(): JSX.Element {
+    return (
+      <div>
+        <form onSubmit={this.context.formRender.handleSubmit} {...this.props} />
+      </div>
+    );
+  }
 }

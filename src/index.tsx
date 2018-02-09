@@ -1,10 +1,10 @@
 import { h, render } from 'preact';
 import App from './containers/App';
-import { Template, create } from 'document-template/src/template/index'
+import { Template, create } from 'document-template/src/template/index';
 import { FieldType, FieldMap } from 'document-template/src/model/field';
-import EditForm from './containers/EditForm'
+import EditForm from './containers/EditForm';
 
-let template = create({
+const template = create({
   version: '20180201',
   model: [
     {

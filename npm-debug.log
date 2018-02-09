@@ -1,0 +1,29 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/zeng/.nvm/v0.10.33/bin/node',
+1 verbose cli   '/home/zeng/.nvm/v0.10.33/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'lint' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 verbose run-script [ 'prelint', 'lint', 'postlint' ]
+5 info prelint document-dom-renderer@0.0.1
+6 info lint document-dom-renderer@0.0.1
+7 verbose unsafe-perm in lifecycle true
+8 info document-dom-renderer@0.0.1 Failed to exec lint script
+9 error document-dom-renderer@0.0.1 lint: `tslint --project .`
+9 error Exit status 8
+10 error Failed at the document-dom-renderer@0.0.1 lint script.
+10 error This is most likely a problem with the document-dom-renderer package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     tslint --project .
+10 error You can get their info via:
+10 error     npm owner ls document-dom-renderer
+10 error There is likely additional logging output above.
+11 error System Linux 4.13.0-31-generic
+12 error command "/home/zeng/.nvm/v0.10.33/bin/node" "/home/zeng/.nvm/v0.10.33/bin/npm" "run" "lint"
+13 error cwd /home/zeng/Develop/WorkSpace/new-expense/document-dom-renderer
+14 error node -v v0.10.33
+15 error npm -v 1.4.28
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

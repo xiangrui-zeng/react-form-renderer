@@ -3,12 +3,12 @@ import { dlv } from '../utils/FucntionProvider';
 import { FormRenderProps } from './FormRender';
 
 export type GenericFieldHTMLAttributes =
-| HTMLInputElement
-| HTMLSelectElement
-| HTMLTextAreaElement;
+  | HTMLInputElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement;
 
 export interface FieldProps<V = any> {
-field: {
+  field: {
     /** Classic React change handler, keyed by input name */
     onChange: (e: any) => void;
     /** Mark component as touched */
@@ -17,41 +17,41 @@ field: {
     value: any;
     /* name of the input */
     name: string;
-};
-    form: FormRenderProps<V>; // if ppl want to restrict this for a given form, let them.
+  };
+  form: FormRenderProps<V>; // if ppl want to restrict this for a given form, let them.
 }
 
 export interface FieldConfig {
-    /**
-     * Field component to render. Can either be a string like 'select' or a component.
-     */
-    component?: string | Component<FieldProps<any> | void, {}>;
+  /**
+   * Field component to render. Can either be a string like 'select' or a component.
+   */
+  component?: string | Component<FieldProps<any> | void, {}> | JSX.Element;
 
-    /**
-     * Render prop (works like React router's <Route render={props =>} />)
-     */
-    render?: ((props: FieldProps<any>) => JSX.Element);
+  /**
+   * Render prop (works like React router's <Route render={props =>} />)
+   */
+  render?: ((props: FieldProps<any>) => JSX.Element);
 
-    /**
-     * Children render function <Field name>{props => ...}</Field>)
-     */
-    children?: ((props: FieldProps<any>) => JSX.Element);
+  /**
+   * Children render function <Field name>{props => ...}</Field>)
+   */
+  children?: ((props: FieldProps<any>) => JSX.Element);
 
-    /**
-     * Validate a single field value independently
-     */
-    validate?: ((value: any) => string | Function | Promise<void> | undefined);
+  /**
+   * Validate a single field value independently
+   */
+  validate?: ((value: any) => string | Promise<void> | undefined);
 
-    /**
-     * Field name
-     */
-    name: string;
+  /**
+   * Field name
+   */
+  name: string;
 
-    /** HTML input type */
-    type?: string;
+  /** HTML input type */
+  type?: string;
 
-    /** Field value */
-    value?: any;
+  /** Field value */
+  value?: any;
 
 }
 
@@ -64,71 +64,66 @@ export type FieldAttributes = GenericFieldHTMLAttributes & FieldConfig;
 
 export class Field<FieldProps extends FieldAttributes = any> extends Component<FieldProps, {}> {
 
-    constructor(props: FieldProps) {
-        super(props);
+  public static contextTypes = {
+    formRender: Object,
+  };
+
+  public constructor(props: FieldProps) {
+    super(props);
+  }
+
+  public handleChange = (e: any) => {
+    const { handleChange, validateOnChange } = this.context.formRender;
+    handleChange(e); // Call FormRender's handleChange no matter what
+    if (!!validateOnChange && !!this.props.validate) {
+      this.runFieldValidations(e.target.value);
     }
+  }
 
-    static contextTypes = {
-        formRender: Object,
-      };
-
-    componentWillMount() {
-        const { render, children, component } = this.props;
-
-        //props check here
+  public handleBlur = (e: any) => {
+    const { handleBlur, validateOnBlur } = this.context.formRender;
+    handleBlur(e); // Call FormRender's handleBlur no matter what
+    if (validateOnBlur && this.props.validate) {
+      this.runFieldValidations(e.target.value);
     }
+  }
 
-    handleChange = (e: any) => {
-        const { handleChange, validateOnChange } = this.context.formRender;
-        handleChange(e); // Call FormRender's handleChange no matter what
-        if (!!validateOnChange && !!this.props.validate) {
-            this.runFieldValidations(e.target.value);
-        }
-    };
+  public runFieldValidations = (value: any) => {
+    const { setFieldError } = this.context.formRender;
+    const { name, validate } = this.props;
+    // Call validate fn
+    setFieldError(name, 'Error Message');
+  }
 
-    handleBlur = (e: any) => {
-        const { handleBlur, validateOnBlur } = this.context.formRender;
-        handleBlur(e); // Call FormRender's handleBlur no matter what
-        if (validateOnBlur && this.props.validate) {
-            this.runFieldValidations(e.target.value);
-        }
-    };
-
-    runFieldValidations = (value: any) => {
-        const { setFieldError } = this.context.formRender;
-        const { name, validate } = this.props;
-        // Call validate fn
-        setFieldError(name, 'Error Message');
-        
-    };
-
-    render(): JSX.Element {
-        const {
-            validate,
-            name,
-            render,
-            children,
-            component = 'input',
-            ...props
+  public render(): JSX.Element {
+    const {
+      validate,
+      name,
+      render,
+      children,
+      component,
+      ...props
         } = this.props as FieldConfig;
-        
-        const { formRender } = this.context;
 
-        const field = {
-            value: dlv(formRender.values, name),
-            name,
-            onChange: validate ? this.handleChange : formRender.handleChange,
-            onBlur: validate ? this.handleBlur : formRender.handleBlur,
-        };
+    const { formRender } = this.context;
 
-        const bag = { field, form: formRender };
+    const field = {
+      value: dlv(formRender.values, name),
+      name,
+      onChange: validate ? this.handleChange : formRender.handleChange,
+      onBlur: validate ? this.handleBlur : formRender.handleBlur,
+    };
 
-        if (render) {
-            return (render as any)(bag);
-        }
+    const bag = { field, form: formRender };
 
-        return (
-            <div></div>
-        )
+    if (render) {
+      return (render)(bag);
     }
+
+    if (component) {
+      return (component as JSX.Element);
+    }
+
+    return (<div />);
+  }
 }
